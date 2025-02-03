@@ -1,0 +1,79 @@
+﻿@page "/Autores"
+@inject IServiciosAutor ServiciosAutor
+
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Autores</title>
+        <link rel="stylesheet" href="~/css/app.css" />
+    </head>
+    <body>
+
+        <h1>Lista de Autores</h1>
+        <hr />
+    @if(ListaA != null)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>AutorID</th>
+                    <th>Nombre</th>
+                    <th>Nacionalidad</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Autor item in ListaA)
+                {
+                    <tr>
+                        <td>@item.AutorID</td>
+                        <td>@item.Nombre</td>
+                        <td>@item.Nacionalidad</td>
+                        <td>@item.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h1 class="alert-danger">@MessageGet</h1>
+    }
+    
+
+    
+    </body>
+    </html>
+
+@code {
+
+    public List<Autor>? ListaA { get; set; }
+    public string? MessageGet { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            string url = "http://127.0.0.1:8000/Autores/";
+            var response = await ServiciosAutor.GetAutores<List<Autor>>(url);
+            if(!response.Error)
+            {
+                ListaA = response.Response;
+                MessageGet = String.Empty;
+            }
+            else
+            {
+                ListaA = null;
+                MessageGet = await response.GetErrorMessage();
+            }
+
+
+        }catch(Exception e)
+        {
+            ListaA = null;
+            MessageGet = e.Message;
+
+        }
+
+    }
+
+}
