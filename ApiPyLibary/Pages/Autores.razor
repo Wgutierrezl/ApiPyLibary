@@ -39,6 +39,82 @@
     {
         <h1 class="alert-danger">@MessageGet</h1>
     }
+
+    <hr />
+
+    <h2>Busqueda Filtrada</h2>
+    <div>
+        <p>
+            Digite el Codigo del Autor
+            <input type="text" @bind="CodigoAutor" required />
+        </p>
+
+        <button class="btn btn-outline-primary" @onclick="GetFiltrado">Buscar Autor</button>
+
+        @if(AutorGet!=null)
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>AutorID</th>
+                        <th>Nombre</th>
+                        <th>Nacionalidad</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>@AutorGet.AutorID</td>
+                            <td>@AutorGet.Nombre</td>
+                            <td>@AutorGet.Nacionalidad</td>
+                            <td>@AutorGet.Email</td>
+                        </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="alert-danger">@MessageGetID</p>
+        }
+    </div>
+    <hr />
+    <h1>Agregar Autor</h1>
+    <div>
+
+        <div>
+            <p>
+                Digite el Nombre del Autor
+                <input type="text" @bind="AutorPost.Nombre" required />
+            </p>
+        </div>
+       <hr />
+       <div>
+           <p>
+               DigiteLa nacionalidad del Autor
+               <input type="text" @bind="AutorPost.Nacionalidad" required />
+           </p>
+       </div>
+       <hr />
+       <div>
+           <p>
+               Digite el Email del Autor
+               <input type="text" @bind="AutorPost.Email" required />
+           </p>
+       </div>
+       <hr />
+
+       <button class="btn btn-outline-primary" @onclick="PostAutores">Guardar</button>
+
+        @if(Exito!=false)
+        {
+            <p class="alert alert-success">Insertado correctamente</p>
+        }
+        else
+        {
+            <p class="alert alert-danger">@MessagePost</p>
+        }
+
+    </div>
     
 
     
@@ -76,4 +152,150 @@
 
     }
 
+
+    public Autor? AutorGet { get; set; }
+    public string? MessageGetID { get; set; }
+    public int CodigoAutor { get; set; }
+
+    protected async Task GetFiltrado()
+    {
+        try
+        {
+            string url = "http://127.0.0.1:8000/Autores/"+CodigoAutor;
+            var response = await ServiciosAutor.GetAutores<Autor>(url);
+            if(!response.Error)
+            {
+                AutorGet = response.Response;
+                MessageGetID = String.Empty;
+            }
+            else
+            {
+                AutorGet = null;
+                MessageGetID = await response.GetErrorMessage();
+            }
+
+        }catch(Exception e)
+        {
+            AutorGet = null;
+            MessageGetID = e.Message;
+        }
+
+    }
+
+    public Autor AutorPost { get; set; } = new Autor();
+    public bool Exito = false;
+    public string? MessagePost { get; set; }
+    protected async Task PostAutores()
+    {
+        try
+        {
+            string url = "http://127.0.0.1:8000/Autores/";
+            var response = await ServiciosAutor.PostAutores<Autor>(url, AutorPost);
+            if (!response.Error)
+            {
+                Exito = true;
+                MessagePost = String.Empty;
+                Console.WriteLine("Respuesta del servidor" + response.Response);
+            }
+            else
+            {
+                Exito = false;
+                MessagePost = await response.GetErrorMessage();
+            }
+
+        }
+        catch (Exception e)
+        {
+            Exito = false;
+            MessagePost = e.Message;
+        }
+    }
+
+    public int CodDelete { get; set; }
+    public bool ExitoDelete { get; set; }
+    public string? MessageDelete { get; set; }
+    protected async Task DeleteAutor()
+    {
+
+        try
+        {
+            string url = "http://127.0.0.1:8000/Autores/"+CodDelete;
+            var response = await ServiciosAutor.DeleteAutores(url); 
+            if (!response.Error)
+            {
+                ExitoDelete = true;
+                MessageDelete = String.Empty;
+            }
+            else
+            {
+                ExitoDelete = false;
+                MessageDelete = await response.GetErrorMessage();
+            }
+
+        }
+        catch (Exception e)
+        {
+            ExitoDelete = false;
+            MessageDelete = e.Message;
+        }
+
+    }
+
+    public int CodPut { get; set; }
+    public Autor? AutorPut { get; set; }
+    public string? MessageGetPut { get; set; }
+    protected async Task GetPutAutor()
+    {
+        try
+        {
+            string url = "http://127.0.0.1:8000/Autores/" + CodPut;
+            var response = await ServiciosAutor.GetAutores<Autor>(url);
+            if (!response.Error)
+            {
+                AutorPut = response.Response;
+                MessageGetPut = String.Empty;
+            }
+            else
+            {
+                AutorPut = null;
+                MessageGetPut = await response.GetErrorMessage();
+            }
+
+        }
+        catch (Exception e)
+        {
+            AutorPut = null;
+            MessageGetPut = e.Message;
+        }
+
+    }
+
+    public bool ExitoPut = false;
+    public string? MessagePut { get; set; }
+    protected async Task PutAutor()
+    {
+        try
+        {
+            string url = "http://127.0.0.1:8000/Autores/" + CodPut;
+            var response = await ServiciosAutor.PutAutores<Autor>(url, AutorPut);
+            if(!response.Error)
+            {
+                ExitoPut = true;
+                MessagePut = String.Empty;
+            }
+            else
+            {
+                ExitoPut = false ;
+                MessagePut = await response.GetErrorMessage();
+
+            }
+
+        }catch(Exception e)
+        {
+            ExitoPut = false;
+            MessagePut = e.Message;
+
+        }
+
+    }
 }

@@ -76,7 +76,7 @@ namespace ApiPyLibary.Servicios
 			if(responsehttp.IsSuccessStatusCode)
 			{
 				var response = JsonSerializer.Deserialize<TActionResponse>(contenido, jsonSerializerOptions);
-				return new HttpResponseWrapper<TActionResponse>(response, false, responsehttp);
+				return new HttpResponseWrapper<TActionResponse>(response, !responsehttp.IsSuccessStatusCode, responsehttp);
 			}
 			return new HttpResponseWrapper<TActionResponse>(default, true, responsehttp);
 		}
