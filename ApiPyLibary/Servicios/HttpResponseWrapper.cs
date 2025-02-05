@@ -17,10 +17,11 @@ namespace ApiPyLibary.Servicios
 			Message = message;
 		}
 
-		public async Task<string> GetErrorMessage()
-		{
-
-			return await Message!.Content.ReadAsStringAsync();
-		}
-	}
+        public async Task<string> GetErrorMessage()
+        {
+            return Message != null
+                ? await Message.Content.ReadAsStringAsync()
+                : "Error desconocido.";
+        }
+    }
 }

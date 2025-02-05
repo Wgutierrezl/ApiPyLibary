@@ -115,6 +115,75 @@
         }
 
     </div>
+    <hr />
+
+    <div>
+        <h2>Eliminar un Autor</h2>
+        <p>
+            Digite el Codigo del Autor
+            <input type="text" @bind="CodDelete" required />
+        </p>
+        <button class="btn btn-outline-primary" @onclick="DeleteAutor">Eliminarlos</button>
+        @if(ExitoDelete!=false)
+        {
+            <p class="alert-success">Eliminado Correctamente</p>
+        }
+        else
+        {
+            <p class="alert-danger">@MessageDelete</p>
+        }
+    </div>
+
+    <hr />
+
+    <div>
+        <h2>Editar un Autor</h2>
+        <p>
+            Digite el Codigo del Autor
+            <input type="text" @bind="CodPut" required />
+        </p>
+        <button class="btn btn-outline-primary" @onclick="GetPutAutor">Buscar</button>
+
+        @if(AutorPut!=null)
+        {
+            <div>
+                <h3>Autor Encontrado</h3>
+                <div>
+                    Modifique el Nombre del Autor:
+                    <input type="text" @bind="AutorPut.Nombre" required />
+                </div>
+                <hr />
+                <div>
+                    <p>
+                        Modifique la nacionalidad:
+                        <input type="text" @bind="AutorPut.Nacionalidad" required />
+                    </p>
+                </div>
+                <hr />
+                <div>
+                    <p>
+                        Modifique el correo del Autor:
+                        <input type="text" @bind="AutorPut.Email" required />
+                    </p>
+                </div>
+
+                <button class="btn btn-outline-primary" @onclick="PutAutor">Modificar</button>
+                @if(ExitoPut!=false)
+                {
+                    <h1 class="alert-success">Modificado correctamente</h1>
+                }
+                else
+                {
+                    <h1 class="alert-danger">@MessagePut</h1>
+                }
+
+            </div>
+        }
+        else
+        {
+            <h1 class="alert-danger">@MessageGetPut</h1>
+        }
+    </div>
     
 
     

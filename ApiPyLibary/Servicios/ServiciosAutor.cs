@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json;
 
@@ -18,11 +19,11 @@ namespace ApiPyLibary.Servicios
 			PropertyNameCaseInsensitive = true,
 		};
 
-		//private async Task<T> UnserializeAnswer<T>(HttpResponseMessage responseHttp)
-		//{
-		//	var response = await responseHttp.Content.ReadAsStringAsync();
-		//	return JsonSerializer.Deserialize<T>(response, jsonSerializerOptions)!;
-		//}
+		private async Task<T> UnserializeAnswer<T>(HttpResponseMessage responseHttp)
+		{
+			var response = await responseHttp.Content.ReadAsStringAsync();
+			return JsonSerializer.Deserialize<T>(response, jsonSerializerOptions)!;
+		}
 		public async Task<HttpResponseWrapper<object>> DeleteAutores(string url)
 		{
 			var responseHttp = await _httpClient.DeleteAsync(url);
@@ -59,27 +60,27 @@ namespace ApiPyLibary.Servicios
 
 		public async Task<HttpResponseWrapper<object>> PostAutores<T>(string url, T model)
 		{
-			var messageContent=JsonSerializer.Serialize(model);
-			var content=new StringContent(messageContent,Encoding.UTF8,"application/json");
-			var responsehttp=await _httpClient.PostAsync(url,content);
-			var contenido=await responsehttp.Content.ReadAsStringAsync();
-			return new HttpResponseWrapper<object>(contenido, !responsehttp.IsSuccessStatusCode, responsehttp);
-		}
+			var Object = JsonSerializer.Serialize(model);
+			var MessageContent=new StringContent(Object, Encoding.UTF8, "application/json");
+			var responseHttp=await _httpClient.PostAsync(url,MessageContent);
+			return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
+        }
 
 		public async Task<HttpResponseWrapper<TActionResponse>> PostAutores<T, TActionResponse>(string url, T model)
 		{
 			var messageContent = JsonSerializer.Serialize(model);
 			var content = new StringContent(messageContent, Encoding.UTF8, "application/json");
 			var responsehttp = await _httpClient.PostAsync(url, content);
-			var contenido = await responsehttp.Content.ReadAsStringAsync();
+            //var contenido = await responsehttp.Content.ReadAsStringAsync();
 
-			if(responsehttp.IsSuccessStatusCode)
-			{
-				var response = JsonSerializer.Deserialize<TActionResponse>(contenido, jsonSerializerOptions);
-				return new HttpResponseWrapper<TActionResponse>(response, !responsehttp.IsSuccessStatusCode, responsehttp);
-			}
-			return new HttpResponseWrapper<TActionResponse>(default, true, responsehttp);
-		}
+            if (responsehttp.IsSuccessStatusCode)
+            {
+                var response = await UnserializeAnswer<TActionResponse>(responsehttp);
+                return new HttpResponseWrapper<TActionResponse>(response, false, responsehttp);
+            }
+
+            return new HttpResponseWrapper<TActionResponse>(default, !responsehttp.IsSuccessStatusCode, responsehttp);
+        }
 
 		public async Task<HttpResponseWrapper<object>> PutAutores<T>(string url, T model)
 		{
