@@ -1,0 +1,80 @@
+﻿@page "/Libros"
+@inject IServiciosLibros ServiciosLibros
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Libros</title>
+		<link rel="stylesheet" href="~/css/app.css" />
+    </head>
+    <body>
+
+		<h1>Lista de Libros registrado</h1>
+		@if(ListaL==null)
+		{
+			<h2>....Cargando</h2>
+	
+		}
+		else
+		{
+			<table>
+				<thead>
+					<tr>
+						<th>LibroID</th>
+						<th>AutorID</th>
+						<th>Titulo</th>
+						<th>Fecha</th>
+						<th>Disponibilidad</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach(var item in ListaL)
+				{
+					<tr>
+						<td>@item.LibroID</td>
+						<td>@item.IDAutor</td>
+						<td>@item.Titulo</td>
+						<td>@item.Fecha</td>
+						<td>@item.Disponibilidad</td>
+					</tr>
+				}
+			</tbody>
+			</table>
+		
+		}
+
+    
+    </body>
+    </html>
+
+<h3>Libros</h3>
+
+@code {
+
+	public List<Libro>? ListaL { get; set; }
+	public string? MessageLibros { get; set; }
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			string url = "http://127.0.0.1:8000/Libros/";
+			var response = await ServiciosLibros.GetLibros<List<Libro>>(url);
+			if(!response.Error)
+			{
+				ListaL = response.Response;
+				MessageLibros = String.Empty;
+			}
+			else
+			{
+				ListaL = null;
+				MessageLibros = await response.GetErrorMessage();
+			}
+
+		}catch(Exception e)
+		{
+			ListaL = null;
+			MessageLibros = e.Message;
+		}
+
+	}
+
+}
