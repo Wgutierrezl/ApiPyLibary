@@ -1,4 +1,6 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
+using System.Text;
 using System.Text.Json;
 
 namespace ApiPyLibary.Servicios
@@ -34,34 +36,67 @@ namespace ApiPyLibary.Servicios
             return new HttpResponseWrapper<T>(default, !responsehttp.IsSuccessStatusCode, responsehttp);
         }
 
-        public Task<HttpResponseWrapper<object>> PostPrestamos<T>(string url, T model)
+        public async Task<HttpResponseWrapper<object>> PostPrestamos<T>(string url, T model)
         {
-            throw new NotImplementedException();
+            var MessageBody = JsonSerializer.Serialize(model);
+            var MessageContent = new StringContent(MessageBody, Encoding.UTF8, "application/json");
+            var responsehttp=await _httpClient.PostAsync(url, MessageContent);
+            return new HttpResponseWrapper<object>(null,!responsehttp.IsSuccessStatusCode, responsehttp);
         }
 
-        public Task<HttpResponseWrapper<TActionResponse>> PostPrestamos<T, TActionResponse>(string url, T model)
+        public async Task<HttpResponseWrapper<TActionResponse>> PostPrestamos<T, TActionResponse>(string url, T model)
         {
-            throw new NotImplementedException();
+            var messageBody=JsonSerializer.Serialize(model);
+            var MessageContente=new StringContent(messageBody, Encoding.UTF8, "application/json");
+            var responsehttp=await _httpClient.PostAsync(url,MessageContente);
+            var content=await responsehttp.Content.ReadAsStringAsync();
+            if (responsehttp.IsSuccessStatusCode)
+            {
+                var response=JsonSerializer.Deserialize<TActionResponse>(content,_serializerOptions);
+                return new HttpResponseWrapper<TActionResponse>(response,false, responsehttp);
+            }
+            return new HttpResponseWrapper<TActionResponse>(default,!responsehttp.IsSuccessStatusCode, responsehttp);
         }
 
-        public Task<HttpResponseWrapper<object>> PutPrestamos<T>(string url, T model)
+        public async Task<HttpResponseWrapper<object>> PutPrestamos<T>(string url, T model)
         {
-            throw new NotImplementedException();
+            var messageBody = JsonSerializer.Serialize(model);
+            var MessageContent=new StringContent(messageBody,Encoding.UTF8, "application/json");
+            var responsehttp = await _httpClient.PutAsync(url, MessageContent);
+            return new HttpResponseWrapper<object>(default,!responsehttp.IsSuccessStatusCode, responsehttp);
         }
 
-        public Task<HttpResponseWrapper<TActionResponse>> PutPrestamos<T, TActionResponse>(string url, T model)
+        public async Task<HttpResponseWrapper<TActionResponse>> PutPrestamos<T, TActionResponse>(string url, T model)
         {
-            throw new NotImplementedException();
+            var messageBody=JsonSerializer.Serialize(model);
+            var MessageContent=new StringContent(messageBody, Encoding.UTF8, "application/json");
+            var responsehttp=await _httpClient.PutAsync(url,MessageContent);
+            var Content=await responsehttp.Content.ReadAsStringAsync();
+            if (responsehttp.IsSuccessStatusCode) 
+            {
+                var response = JsonSerializer.Deserialize<TActionResponse>(Content, _serializerOptions);
+                return new HttpResponseWrapper<TActionResponse>(response, false, responsehttp);
+            }
+            return new HttpResponseWrapper<TActionResponse>(default,!responsehttp.IsSuccessStatusCode,responsehttp);
         }
 
-        public Task<HttpResponseWrapper<object>> DeletePrestamos(string url)
+        public async Task<HttpResponseWrapper<object>> DeletePrestamos(string url)
         {
-            throw new NotImplementedException();
+            var responsehttp=await _httpClient.DeleteAsync(url);
+            var content = await responsehttp.Content.ReadAsStringAsync();
+            return new HttpResponseWrapper<object>(content,!responsehttp.IsSuccessStatusCode, responsehttp);
         }
 
-        public Task<HttpResponseWrapper<TActionResponse>> DeletePrestamos<TActionResponse>(string url)
+        public async Task<HttpResponseWrapper<TActionResponse>> DeletePrestamos<TActionResponse>(string url)
         {
-            throw new NotImplementedException();
+            var responsehttp = await _httpClient.DeleteAsync(url);
+            var content=await responsehttp.Content.ReadAsStringAsync();
+            if (responsehttp.IsSuccessStatusCode)
+            {
+                var response=JsonSerializer.Deserialize<TActionResponse>(content, _serializerOptions);
+                return new HttpResponseWrapper<TActionResponse>(response,false,responsehttp);
+            }
+            return new HttpResponseWrapper<TActionResponse>(default, !responsehttp.IsSuccessStatusCode, responsehttp);
         }
 
     }
