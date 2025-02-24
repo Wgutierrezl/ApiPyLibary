@@ -67,7 +67,8 @@ namespace ApiPyLibary.Servicios
             var MessageJson = JsonSerializer.Serialize(model);
             var messajeContent = new StringContent(MessageJson, Encoding.UTF8, "application/json");
             var responsehttp=await _httpClient.PostAsync(url,messajeContent);
-            return new HttpResponseWrapper<object>(null, !responsehttp.IsSuccessStatusCode, responsehttp);
+            var content = await responsehttp.Content.ReadAsStringAsync();
+            return new HttpResponseWrapper<object>(content, !responsehttp.IsSuccessStatusCode, responsehttp);
         }
 
         public async Task<HttpResponseWrapper<TActionResponse>> PostLibros<T, TActionResponse>(string url, T model)
