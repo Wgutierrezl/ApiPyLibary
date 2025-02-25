@@ -1,0 +1,135 @@
+﻿@page "/Prestamo"
+@inject IServiciosPrestamos ServiciosPrestamos
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prestamos</title>
+    <link rel="stylesheet" href="~/css/app.css" />
+</head>
+<body>
+    <h1>Prestamos realizados</h1>
+    <hr />
+    @if (ListaP == null)
+    {
+        <h2>...Cargando</h2>
+
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>PrestamoID</th>
+                    <th>LibroID</th>
+                    <th>UsuarioID</th>
+                    <th>FechaPrestamo</th>
+                    <th>FechaDevolucion</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in ListaP)
+                {
+                    <tr>
+                        <td>@item.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+
+</body>
+</html>
+
+@code {
+
+    public List<Prestamo>? ListaP { get; set; }
+    public string? MessageGet { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            string url = "http://127.0.0.1:8000/Prestamos/";
+            var response = await ServiciosPrestamos.GetPrestamos<List<Prestamo>>(url);
+            if (!response.Error)
+            {
+                ListaP = response.Response;
+                MessageGet = String.Empty;
+            }
+            else
+            {
+                ListaP = null;
+                MessageGet = await response.GetErrorMessage();
+            }
+
+
+        }
+        catch (Exception e)
+        {
+            ListaP = null;
+            MessageGet = e.Message;
+
+        }
+
+    }
+
+
+    public Prestamo? prestamo { get; set; }
+    public int CodigoPrestamo { get; set; }
+    public string? MessageGetID { get; set; }
+    public async Task GetFiltrado()
+    {
+        try
+        {
+            string url = "http://127.0.0.1:8000/Prestamos/" + CodigoPrestamo;
+            var response = await ServiciosPrestamos.GetPrestamos<Prestamo>(url);
+            if (!response.Error)
+            {
+                prestamo = response.Response;
+                MessageGetID = String.Empty;
+            }
+            else
+            {
+                prestamo = null;
+                MessageGetID = await response.GetErrorMessage();
+            }
+        }
+        catch (Exception e)
+        {
+            prestamo = null;
+            MessageGetID = e.Message;
+        }
+    }
+
+
+    public Prestamo PrestamoPost { get; set; } = new Prestamo();
+    public bool SuccessPost = false;
+    public string? MessagePost { get; set; }
+    public async Task PostPrestamos()
+    {
+        try
+        {
+            string url = "http://127.0.0.1:8000/Prestamos/";
+            var response = await ServiciosPrestamos.PostPrestamos<Prestamo>(url, PrestamoPost);
+            if (!response.Error)
+            {
+                SuccessPost = true;
+                MessagePost = String.Empty;
+            }
+            else
+            {
+                SuccessPost = false;
+                MessagePost = await response.GetErrorMessage();
+            }
+
+        }
+        catch (Exception e)
+        {
+            SuccessPost = false;
+            MessagePost = e.Message;
+        }
+    }
+
+}
