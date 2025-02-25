@@ -1,5 +1,6 @@
 ﻿@page "/Prestamo"
 @inject IServiciosPrestamos ServiciosPrestamos
+@using Entidades.Entities;
 
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,6 @@
     @if (ListaP == null)
     {
         <h2>...Cargando</h2>
-
     }
     else
     {
@@ -29,24 +29,27 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in ListaP)
+                @foreach (var item in ListaP)
                 {
                     <tr>
-                        <td>@item.</td>
+                        <td>@item.PrestamoID</td>
+                        <td>@item.LibroID</td>
+                        <td>@item.UsuarioID</td>
+                        <td>@item.FechaPrestamo</td>
+                        <td>@item.FechaDevolucion</td>
+                        <td>@item.Estado</td>
                     </tr>
                 }
             </tbody>
         </table>
-
     }
-
 </body>
 </html>
 
 @code {
-
     public List<Prestamo>? ListaP { get; set; }
     public string? MessageGet { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -63,22 +66,18 @@
                 ListaP = null;
                 MessageGet = await response.GetErrorMessage();
             }
-
-
         }
         catch (Exception e)
         {
             ListaP = null;
             MessageGet = e.Message;
-
         }
-
     }
-
 
     public Prestamo? prestamo { get; set; }
     public int CodigoPrestamo { get; set; }
     public string? MessageGetID { get; set; }
+
     protected async Task GetFiltrado()
     {
         try
@@ -103,10 +102,10 @@
         }
     }
 
-
     public Prestamo PrestamoPost { get; set; } = new Prestamo();
     public bool SuccessPost = false;
     public string? MessagePost { get; set; }
+
     protected async Task PostPrestamos()
     {
         try
@@ -123,7 +122,6 @@
                 SuccessPost = false;
                 MessagePost = await response.GetErrorMessage();
             }
-
         }
         catch (Exception e)
         {
@@ -131,5 +129,4 @@
             MessagePost = e.Message;
         }
     }
-
 }
