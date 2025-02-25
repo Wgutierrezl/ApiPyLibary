@@ -1,6 +1,5 @@
 ﻿@page "/Prestamo"
 @inject IServiciosPrestamos ServiciosPrestamos
-@using Entidades.Entities;
 
 <!DOCTYPE html>
 <html>
@@ -32,12 +31,12 @@
                 @foreach (var item in ListaP)
                 {
                     <tr>
-                        <td>@item.PrestamoID</td>
-                        <td>@item.LibroID</td>
-                        <td>@item.UsuarioID</td>
-                        <td>@item.FechaPrestamo</td>
-                        <td>@item.FechaDevolucion</td>
-                        <td>@item.Estado</td>
+                        <td>@item</td>
+                        <td>@item.</td>
+                        <td>@item.</td>
+                        <td>@item.</td>
+                        <td>@item.</td>
+                        <td>@item.</td>
                     </tr>
                 }
             </tbody>

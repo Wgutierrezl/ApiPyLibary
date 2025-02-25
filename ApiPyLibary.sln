@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiPyLibary", "ApiPyLibary\ApiPyLibary.csproj", "{53E41DF3-92D2-4958-BC2A-3045263F1757}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entidades", "Entidades\Entidades.csproj", "{9E3BA53F-16F2-4EC0-A355-E3D29C00CC99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlladorEntities", "ControlladorEntities\ControlladorEntities.csproj", "{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{53E41DF3-92D2-4958-BC2A-3045263F1757}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53E41DF3-92D2-4958-BC2A-3045263F1757}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53E41DF3-92D2-4958-BC2A-3045263F1757}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E3BA53F-16F2-4EC0-A355-E3D29C00CC99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E3BA53F-16F2-4EC0-A355-E3D29C00CC99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E3BA53F-16F2-4EC0-A355-E3D29C00CC99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E3BA53F-16F2-4EC0-A355-E3D29C00CC99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
