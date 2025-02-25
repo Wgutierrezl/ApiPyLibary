@@ -79,7 +79,7 @@
     public Prestamo? prestamo { get; set; }
     public int CodigoPrestamo { get; set; }
     public string? MessageGetID { get; set; }
-    public async Task GetFiltrado()
+    protected async Task GetFiltrado()
     {
         try
         {
@@ -107,7 +107,7 @@
     public Prestamo PrestamoPost { get; set; } = new Prestamo();
     public bool SuccessPost = false;
     public string? MessagePost { get; set; }
-    public async Task PostPrestamos()
+    protected async Task PostPrestamos()
     {
         try
         {
