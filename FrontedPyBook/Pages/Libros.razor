@@ -1,0 +1,219 @@
+﻿@page "/Libros"
+@inject IServiciosLibros ServiciosLibros
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Libros</title>
+	<link rel="stylesheet" href="~/css/app.css" />
+</head>
+<body>
+
+	<h1>Lista de Libros registrado</h1>
+	@if (ListaL == null)
+	{
+		<h2>....Cargando</h2>
+
+	}
+	else
+	{
+		<table>
+			<thead>
+				<tr>
+					<th>LibroID</th>
+					<th>AutorID</th>
+					<th>Titulo</th>
+					<th>Fecha</th>
+					<th>Disponibilidad</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in ListaL)
+				{
+					<tr>
+						<td>@item.LibroID</td>
+						<td>@item.IDAutor</td>
+						<td>@item.Titulo</td>
+						<td>@item.Fecha</td>
+						<td>@item.Disponibilidad</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+	}
+	<hr />
+	<div>
+		<h2>Bsuqueda Filtrada de Libros</h2>
+		<p>
+			Digite el codigo del Libro
+			<input type="text" @bind="CodGet" required />
+		</p>
+		<button class="btn btn-outline-primary" @onclick="GetFiltrado">Traerlo</button>
+		@if (LibroGet != null)
+		{
+			<table>
+				<thead>
+					<tr>
+						<th>LibroID</th>
+						<th>AutorID</th>
+						<th>Titulo</th>
+						<th>Fecha</th>
+						<th>Disponibilidad</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>@LibroGet.LibroID</td>
+						<td>@LibroGet.IDAutor</td>
+						<td>@LibroGet.Titulo</td>
+						<td>@LibroGet.Fecha</td>
+						<td>@LibroGet.Disponibilidad</td>
+					</tr>
+				</tbody>
+			</table>
+		}
+		else
+		{
+			<h1 class="alert-danger">@MessageGet</h1>
+		}
+	</div>
+	<hr />
+	<div>
+		<h2>Agregar Libros</h2>
+		<hr>
+		<div>
+			<p>
+				Digite el Codigo del Autor
+				<input type="text" @bind="LibroPost.IDAutor" required />
+			</p>
+		</div>
+		<hr />
+		<div>
+			<p>
+				Digite el titulo del Libro
+				<input type="text" @bind="LibroPost.Titulo" required />
+			</p>
+		</div>
+		<hr>
+		<div>
+			<p>
+				Digite La fecha de lanzamiento
+				<input type="date" @bind="LibroPost.Fecha" required />
+			</p>
+		</div>
+		<hr />
+		<div>
+			<p>
+				Digite el estado del libro
+				<input type="text" @bind="LibroPost.Disponibilidad" required />
+			</p>
+		</div>
+		<hr>
+		<button class="btn btn-outline-primary" @onclick="PostLibros">Guardar</button>
+		@if (SuccessPost != false)
+		{
+			<h2 class="alert-success">Insertado Correctamente</h2>
+
+		}
+		else
+		{
+			<h2 class="alert-danger">@MessagePost</h2>
+
+		}
+	</div>
+
+
+</body>
+</html>
+
+@code {
+	public List<Libro>? ListaL { get; set; }
+	public string? MessageLibros { get; set; }
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			string url = "http://127.0.0.1:8000/Libros/";
+			var response = await ServiciosLibros.GetLibros<List<Libro>>(url);
+			if (!response.Error)
+			{
+				ListaL = response.Response;
+				MessageLibros = String.Empty;
+			}
+			else
+			{
+				ListaL = null;
+				MessageLibros = await response.GetErrorMessage();
+			}
+
+		}
+		catch (Exception e)
+		{
+			ListaL = null;
+			MessageLibros = e.Message;
+		}
+
+	}
+
+	public Libro? LibroGet { get; set; }
+	public string? MessageGet { get; set; }
+	public int CodGet { get; set; }
+	public async Task GetFiltrado()
+	{
+		try
+		{
+			string url = "http://127.0.0.1:8000/Libros/" + CodGet;
+			var response = await ServiciosLibros.GetLibros<Libro>(url);
+			if (!response.Error)
+			{
+				LibroGet = response.Response;
+				MessageGet = String.Empty;
+			}
+			else
+			{
+				LibroGet = null;
+				MessageGet = await response.GetErrorMessage();
+			}
+
+		}
+		catch (Exception e)
+		{
+			LibroGet = null;
+			MessageGet = e.Message;
+		}
+
+	}
+
+	public Libro LibroPost { get; set; } = new Libro();
+	public bool SuccessPost = false;
+	public string? MessagePost { get; set; }
+	public async Task PostLibros()
+	{
+		try
+		{
+			string url = "http://127.0.0.1:8000/Libros/";
+			var response = await ServiciosLibros.PostLibros<Libro>(url, LibroPost);
+			if (!response.Error)
+			{
+				SuccessPost = true;
+				MessagePost = String.Empty;
+			}
+			else
+			{
+				SuccessPost = false;
+				MessagePost = await response.GetErrorMessage();
+			}
+
+		}
+		catch (Exception e)
+		{
+			SuccessPost = false;
+			MessagePost = e.Message;
+
+		}
+
+	}
+
+
+}

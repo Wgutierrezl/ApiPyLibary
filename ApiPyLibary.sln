@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiPyLibary", "ApiPyLibary\ApiPyLibary.csproj", "{53E41DF3-92D2-4958-BC2A-3045263F1757}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlladorEntities", "ControlladorEntities\ControlladorEntities.csproj", "{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlladorEntities", "ControlladorEntities\ControlladorEntities.csproj", "{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontedPyBook", "FrontedPyBook\FrontedPyBook.csproj", "{8D4A3D5B-543D-4906-8F91-B3DB3D0D0896}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{53E41DF3-92D2-4958-BC2A-3045263F1757}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53E41DF3-92D2-4958-BC2A-3045263F1757}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53E41DF3-92D2-4958-BC2A-3045263F1757}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53E41DF3-92D2-4958-BC2A-3045263F1757}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8E4AC26-5B64-41C0-99DF-9FFFC3F53160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D4A3D5B-543D-4906-8F91-B3DB3D0D0896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D4A3D5B-543D-4906-8F91-B3DB3D0D0896}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D4A3D5B-543D-4906-8F91-B3DB3D0D0896}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D4A3D5B-543D-4906-8F91-B3DB3D0D0896}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
